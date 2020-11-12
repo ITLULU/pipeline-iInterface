@@ -22,4 +22,4 @@ dependency-reduced-pom.xml
 app-test.log.*
 *.txt
 *.class
-report.html
+allure-results/
