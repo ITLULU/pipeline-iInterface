@@ -3,6 +3,8 @@ package com.hogwarts.testcase;
 import com.hogwarts.tools.JSONParaser;
 import com.hogwarts.common.CityWeather;
 import com.hogwarts.tools.ZTestReport;
+
+import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.SkipException;
@@ -17,21 +19,8 @@ public class TestExec {
     public String httpResult = null, weatherinfo = null, city = null, exp_city = null;
     public static String cityCode = "";
     CityWeather weather = new CityWeather();
-
-    @Test(groups = {"BaseCase"}, description = "验证深圳天气返回城市名称是否正确")
-    public void getShenZhen_Succ() throws Exception {
-        exp_city = "深圳";
-        cityCode = "101280601";
-        Reporter.log("【模拟跳过测试用例】:获取" + exp_city + "天气成功!");
-        httpResult = weather.getHttpRespone(cityCode);
-        Reporter.log("请求地址: " + weather.geturl());
-        Reporter.log("返回结果: " + httpResult);
-        weatherinfo = JSONParaser.getJsonValue(httpResult, "weatherinfo");
-        city = JSONParaser.getJsonValue(weatherinfo, "city");
-        Reporter.log("用例结果: resultCode=>expected: " + exp_city + " ,actual: " + city);
-        Assert.assertEquals(city, exp_city);
-        throw new SkipException("");
-    }
+    public static Logger log=Logger.getLogger(TestExec.class);
+  
 
     @Test(groups = {"BaseCase"}, description = "验证北京天气返回城市名称是否正确")
     public void getBeiJing_Succ() throws IOException {
@@ -39,10 +28,13 @@ public class TestExec {
         cityCode = "101010100";
         Reporter.log("【正常用例】:获取" + exp_city + "天气成功!");
         httpResult = weather.getHttpRespone(cityCode);
+        log.info("请求响应报文：httpResult："+httpResult);
         Reporter.log("请求地址: " + weather.geturl());
         Reporter.log("返回结果: " + httpResult);
         weatherinfo = JSONParaser.getJsonValue(httpResult, "weatherinfo");
+        log.info("响应报文获取的weatherinfo信息："+weatherinfo);
         city = JSONParaser.getJsonValue(weatherinfo, "city");
+        log.info("响应报文获取的city："+city);
         Reporter.log("用例结果: resultCode=>expected: " + exp_city + " ,actual: " + city);
         Assert.assertEquals(city, exp_city);
     }
@@ -52,16 +44,37 @@ public class TestExec {
         cityCode = "101020100";
         Reporter.log("【正常用例】:获取" + exp_city + "天气成功!");
         httpResult = weather.getHttpRespone(cityCode);
+        log.info("请求响应报文：httpResult："+httpResult);
         Reporter.log("请求地址: " + weather.geturl());
         Reporter.log("返回结果: " + httpResult);
         weatherinfo = JSONParaser.getJsonValue(httpResult, "weatherinfo");
+        log.info("响应报文获取的weatherinfo信息："+weatherinfo);
         city = JSONParaser.getJsonValue(weatherinfo, "city");
+        log.info("响应报文获取的city："+city);
         Reporter.log("用例结果: resultCode=>expected: " + exp_city + " ,actual: " + city);
         Assert.assertEquals(city, exp_city, "期望城市检测");
+    }
+    
+    @Test(groups = {"BaseCase"}, description = "验证深圳天气返回城市名称是否正确")
+    public void getShenZhen_Succ() throws Exception {
+        exp_city = "深圳";
+        cityCode = "101280601";
+        Reporter.log("【模拟跳过测试用例】:获取" + exp_city + "天气成功!");
+        httpResult = weather.getHttpRespone(cityCode);
+        log.info("请求响应报文：httpResult："+httpResult);
+        Reporter.log("请求地址: " + weather.geturl());
+        Reporter.log("返回结果: " + httpResult);
+        weatherinfo = JSONParaser.getJsonValue(httpResult, "weatherinfo");
+        log.info("响应报文获取的weatherinfo信息："+weatherinfo);
+        city = JSONParaser.getJsonValue(weatherinfo, "city");
+        log.info("响应报文获取的city："+city);
+        Reporter.log("用例结果: resultCode=>expected: " + exp_city + " ,actual: " + city);
+        Assert.assertEquals(city, exp_city);
+//        throw new SkipException("");
     }
 
     @DataProvider(name = "dataShangHai")
     public Object[][] dataProvider() {
-        return new Object[][]{{"武汉"}};
+        return new Object[][]{{"上海"}};
     }
 }

@@ -28,7 +28,8 @@ public class HttpClient {
         String resp = HttpClient.sendGet(reqURL);
     }
 
-    public static String sendGet(String url) {
+    @SuppressWarnings("deprecation")
+	public static String sendGet(String url) {
 
         String charset = "utf-8";
         org.apache.http.client.HttpClient httpClient = null;
